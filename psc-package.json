@@ -1,0 +1,12 @@
+{
+    "name": "enum-sum-example-simple-json",
+    "set": "liebeslied",
+    "source": "https://github.com/justinwoo/package-sets.git",
+    "depends": [
+        "simple-json",
+        "psci-support",
+        "console",
+        "eff",
+        "prelude"
+    ]
+}
