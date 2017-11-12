@@ -59,7 +59,7 @@ instance fruitReadForeign :: ReadForeign Fruit where
 instance furitShow :: Show Fruit where
   show = genericShow
 
-type MyShit =
+type MyThing =
   { fruit :: Fruit
   }
 
@@ -80,7 +80,7 @@ testJSON2 = """
 testJSON3 :: String
 testJSON3 = """
 {
-  "fruit": "Bullshit"
+  "fruit": "Wrongthing"
 }
 """
 
@@ -92,8 +92,8 @@ main = do
   -- output:
   -- Abogado
   -- (NonEmptyList (NonEmpty (ErrorAtProperty "fruit" (ForeignError "Enum string Abogado did not match expected string abogado")) ((ErrorAtProperty "fruit" (ForeignError "Enum string Abogado did not match expected string boat")) : (ErrorAtProperty "fruit" (ForeignError "Enum string Abogado did not match expected string candy")) : Nil)))
-  -- (NonEmptyList (NonEmpty (ErrorAtProperty "fruit" (ForeignError "Enum string Bullshit did not match expected string abogado")) ((ErrorAtProperty "fruit" (ForeignError "Enum string Bullshit did not match expected string boat")) : (ErrorAtProperty "fruit" (ForeignError "Enum string Bullshit did not match expected string candy")) : Nil)))
+  -- (NonEmptyList (NonEmpty (ErrorAtProperty "fruit" (ForeignError "Enum string Wrongthing did not match expected string abogado")) ((ErrorAtProperty "fruit" (ForeignError "Enum string Wrongthing did not match expected string boat")) : (ErrorAtProperty "fruit" (ForeignError "Enum string Wrongthing did not match expected string candy")) : Nil)))
   where
-    toString :: Either (NonEmptyList ForeignError) MyShit -> String
+    toString :: Either (NonEmptyList ForeignError) MyThing -> String
     toString = either show (show <<< _.fruit)
     logJSON = log <<< toString
