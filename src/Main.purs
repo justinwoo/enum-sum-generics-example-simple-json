@@ -3,16 +3,16 @@ module Main where
 import Prelude
 
 import Control.Alt ((<|>))
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, log)
 import Control.Monad.Except (throwError)
 import Data.Either (Either, either)
-import Data.Foreign (F, Foreign, ForeignError(ForeignError))
 import Data.Generic.Rep (class Generic, Constructor(..), NoArguments(..), Sum(..), to)
 import Data.Generic.Rep.Show (genericShow)
 import Data.List.Types (NonEmptyList)
 import Data.String (toLower)
-import Simple.JSON (class ReadForeign, read, readJSON)
+import Effect (Effect)
+import Effect.Console (log)
+import Foreign (F, Foreign, ForeignError(ForeignError))
+import Simple.JSON (class ReadForeign, read', readJSON)
 import Type.Prelude (class IsSymbol, SProxy(..), reflectSymbol)
 
 enumReadForeignLowercase :: forall a rep
@@ -41,7 +41,7 @@ instance constructorEnumReadForeign ::
   ( IsSymbol name
   ) => EnumReadForeign (Constructor name NoArguments) where
   enumReadForeignImpl (StringTransform fn) f = do
-    s <- read f
+    s <- read' f
     if s == name
        then pure $ Constructor NoArguments
        else throwError <<< pure <<< ForeignError $
@@ -84,7 +84,7 @@ testJSON3 = """
 }
 """
 
-main :: forall e. Eff (console :: CONSOLE | e) Unit
+main :: Effect Unit
 main = do
   logJSON $ readJSON testJSON1
   logJSON $ readJSON testJSON2
